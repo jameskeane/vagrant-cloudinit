@@ -36,11 +36,11 @@ module VagrantPlugins
             user_data = File.expand_path(config.user_data)
             meta_data = ensure_metadata()
 
-            iso_file = Tempfile.new(['nocloud', '.iso'])
+            iso_path = File.join(machine.data_dir, "cloud-init.iso")
             system("mkisofs",
                       "-joliet", "-rock",
                       "-volid", "cidata",
-                      "-output", iso_file.path,
+                      "-output", iso_path,
                       "-graft-points",
                       "user-data=#{user_data}",
                       "meta-data=#{meta_data}")
@@ -53,7 +53,7 @@ module VagrantPlugins
                   "--port", "2",
                   "--device", "0",
                   "--type", "dvddrive",
-                  "--medium", iso_file.path.to_s
+                  "--medium", iso_path
               ]
             end
           end
