@@ -47,11 +47,23 @@ module VagrantPlugins
 
             # TODO add support for other providers
             if machine.provider_name == :virtualbox then
+
+              # Ensure we have a SAS device
+              begin
+                machine.provider.driver.execute_command [
+                    "storagectl", machine.id.to_s,
+                    "--name", "SAS",
+                    "--add", "sas",
+                    "--controller", "LSILogicSAS",
+                    "--bootable", "off"
+                ]
+              rescue Exception
+              end
+
               machine.provider.driver.execute_command [
                   "storageattach", machine.id.to_s,
-                  "--storagectl", "SCSI",
-                  "--port", "2",
-                  "--device", "0",
+                  "--storagectl", "SAS",
+                  "--port", "4",
                   "--type", "dvddrive",
                   "--medium", iso_path
               ]
