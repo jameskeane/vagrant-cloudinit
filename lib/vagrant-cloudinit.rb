@@ -8,7 +8,6 @@ require 'tempfile'
 
 module VagrantPlugins
   module CloudInit
-    VERSION = "0.0.1"
 
     class Plugin < Vagrant.plugin("2")
       name "CloudInit"
