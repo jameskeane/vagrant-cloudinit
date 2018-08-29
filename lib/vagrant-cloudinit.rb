@@ -64,6 +64,7 @@ module VagrantPlugins
                   "--storagectl", "SAS",
                   "--port", "4",
                   "--type", "dvddrive",
+                  "--forceunmount",
                   "--medium", iso_path
               ]
             end
